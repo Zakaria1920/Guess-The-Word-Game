@@ -1,25 +1,28 @@
+// Set query selector function
+let qs = (el) => document.querySelector(el);
+
 // Setting game name
 let gameName = "Guess The Word";
 document.title = gameName;
-document.querySelector("h1").innerHTML = gameName;
-document.querySelector(
-  "footer"
-).innerHTML = `${gameName} Game Created By Elzero Web School`;
+qs("h1").innerHTML = gameName;
+qs("footer").innerHTML = `${gameName} Game Created By Elzero Web School`;
 
 // Setting game options
 let numberOfTries = 6,
   numberOfLetters = 6,
   currentTry = 1,
-  random = Math.random();
-
-const inputsContainer = document.querySelector(".inputs"),
-  checkBut = document.querySelector(".check"),
-  hintBut = document.querySelector(".hint"),
-  hintSpan = document.querySelector(".hint span"),
-  message = document.querySelector(".message");
-let hints = 2,
+  hints = 2,
+  random = Math.random(),
   letter;
+
+const inputsContainer = qs(".inputs"),
+  checkBut = qs(".check"),
+  hintBut = qs(".hint"),
+  hintSpan = qs(".hint span"),
+  message = qs(".message");
+
 hintSpan.innerHTML = hints;
+
 function generateInput() {
   for (let i = 1; i <= numberOfTries; i++) {
     const tryDiv = document.createElement("div");
@@ -30,6 +33,7 @@ function generateInput() {
     for (let j = 1; j <= numberOfLetters; j++) {
       let input = document.createElement("input");
       input.id = `guess-${i}-letter${j}`;
+      input.name = `guess-${i}-letter${j}`;
       input.setAttribute("maxlength", "1");
       input.addEventListener("keydown", handleInputNav);
       tryDiv.appendChild(input);
@@ -42,6 +46,7 @@ function generateInput() {
     .forEach((inp) => (inp.disabled = true));
   nextSibling();
 }
+
 function handleInputNav(e) {
   const input = e.target;
   const prev = input.previousElementSibling;
@@ -56,18 +61,15 @@ function handleInputNav(e) {
     case "Backspace":
       if (input.value) {
         input.value = "";
-        prev && prev.focus();
-        prev && (prev.value = "");
-      } else {
-        prev && (prev.value = "");
-        prev && prev.focus();
       }
+      prev && (prev.value = "");
+      prev && prev.focus();
       break;
   }
 }
 
 function nextSibling() {
-  let currentTryDiv = document.querySelector(`.inputs .try${currentTry}`);
+  let currentTryDiv = qs(`.inputs .try${currentTry}`);
   if (!currentTryDiv) {
     disableButtons();
     showMessage(`Game Over The Right Word Is <span>${letter}</span>`);
@@ -80,12 +82,14 @@ function nextSibling() {
   currentTryDiv.children[1].focus();
   fetchData();
 }
+
 function disableButtons() {
   [checkBut, hintBut].forEach((btn) => {
     btn.disabled = true;
     btn.style.opacity = 0.5;
   });
 }
+
 function fetchData() {
   fetch("/words.json")
     .then((res) => res.json())
@@ -98,6 +102,7 @@ function fetchData() {
     })
     .catch(console.error);
 }
+
 function handleInput(event) {
   const input = event.target;
   if (input.nextElementSibling) {
@@ -146,7 +151,7 @@ function nextTry() {
   currentInputs.forEach((emptyInput) => {
     if (emptyInput.value === "") {
       emptyInput.classList.add("anim");
-      document.querySelector("#fail").play();
+      qs("#fail").play();
       emptyCount++;
     }
   });
@@ -171,7 +176,7 @@ function nextTry() {
     showMessage(
       `Your wrong tries are <span>${wrongInputs}</span> The Right Word Is <span>${letter}</span>`
     );
-    document.querySelector("#success").play();
+    qs("#success").play();
     disableButtons();
   } else {
     currentRow.classList.add("disabled-inputs");
@@ -180,6 +185,7 @@ function nextTry() {
     nextSibling();
   }
 }
+
 function setClass(input, letterChar) {
   input.classList.add(
     letter.includes(input.value)
