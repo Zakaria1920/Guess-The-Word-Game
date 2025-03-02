@@ -22,13 +22,26 @@ h1 {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
+  @media (max-width: 575px) {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
   .game-area {
+    @media (max-width: 575px) {
+      order: 2;
+    }
     .inputs {
+      margin-bottom: 15px;
       div {
         display: flex;
         align-items: center;
         gap: 15px;
         margin-bottom: 20px;
+        @media (max-width: 575px) {
+          gap: 5px;
+          margin-bottom: 5px;
+        }
         span {
           font-weight: bold;
           margin-right: 10px;
@@ -50,6 +63,10 @@ h1 {
         caret-color: transparent;
         border-bottom: 4px solid;
         text-transform: uppercase;
+        @media (max-width: 575px) {
+          width: 44px;
+          height: 46px;
+        }
         &.anim {
           animation: wrong 400ms step-end forwards;
         }
@@ -109,12 +126,16 @@ h1 {
     }
   }
   .key-colors {
+    @media (max-width: 575px) {
+      order: 1;
+    }
     .key-color {
       display: flex;
       align-items: center;
       padding: 15px;
       background-color: white;
       margin-bottom: 10px;
+      border-radius: 5px;
       .key {
         width: 30px;
         height: 30px;
@@ -164,6 +185,11 @@ footer {
   width: 100%;
   background-color: #333;
   color: white;
+  @media (max-width: 575px) {
+    padding: 10px;
+    font-size: 12px;
+    position: static;
+  }
 }
 @keyframes wrong {
   0%,
