@@ -91,7 +91,7 @@ function disableButtons() {
 }
 
 function fetchData() {
-  fetch("../words.json")
+  fetch("./words.json")
     .then((res) => res.json())
     .then((wordData) => {
       letter = wordData[Math.floor(random * wordData.length)];
